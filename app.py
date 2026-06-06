@@ -1,10 +1,4 @@
-import os
 import sys
-import streamlit as st
-
-# Append current working directory to python path for imports
-sys.path.append(os.getcwd())
-
 # SQLite workaround for Streamlit Cloud (Linux) where system sqlite3 is < 3.35.0 required by ChromaDB
 if sys.platform.startswith('linux'):
     try:
@@ -12,6 +6,12 @@ if sys.platform.startswith('linux'):
         sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
     except ImportError:
         pass
+
+import os
+import streamlit as st
+
+# Append current working directory to python path for imports
+sys.path.append(os.getcwd())
 
 import re
 from core.orchestrator import handle_query
