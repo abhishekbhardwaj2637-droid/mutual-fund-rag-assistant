@@ -646,14 +646,18 @@ if st.session_state.pill_query:
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 # Chat Feed Display
-for msg in st.session_state.messages:
+import time
+
+for i, msg in enumerate(st.session_state.messages):
+    is_last = (i == len(st.session_state.messages) - 1)
+    
     if msg["role"] == "user":
         # Flat, non-indented string to prevent markdown code block formatting
         st.markdown(f'<div class="user-bubble-wrapper"><div class="user-bubble">{msg["content"]}</div></div>', unsafe_allow_html=True)
     else:
         # Format the assistant content to HTML to prevent markdown leaks
-        formatted_content = markdown_to_html(msg["content"])
         if msg.get("status") == "refused":
+            formatted_content = markdown_to_html(msg["content"])
             # Amber left border card for warnings / refusals
             links_html = ""
             if msg.get("links"):
@@ -674,8 +678,19 @@ for msg in st.session_state.messages:
             
             footer_html = f'<div style="text-align: right; font-size: 10px; color: #bbcabf; opacity: 0.5; margin-top: 8px;">Last updated from sources: {msg.get("last_updated", "N/A")}</div>'
             
-            # Flat HTML output to prevent code block leaks
-            st.markdown(f'<div class="assistant-bubble-wrapper"><div class="assistant-icon-circle"><span class="material-symbols-outlined assistant-icon-bolt">bolt</span></div><div class="assistant-bubble-factual"><div>{formatted_content}</div>{source_html}{footer_html}</div></div>', unsafe_allow_html=True)
+            if is_last and not msg.get("streamed"):
+                placeholder = st.empty()
+                words = msg["content"].split()
+                current_text = ""
+                for word in words:
+                    current_text += word + " "
+                    formatted_content = markdown_to_html(current_text)
+                    placeholder.markdown(f'<div class="assistant-bubble-wrapper"><div class="assistant-icon-circle"><span class="material-symbols-outlined assistant-icon-bolt">bolt</span></div><div class="assistant-bubble-factual"><div>{formatted_content}</div>{source_html}{footer_html}</div></div>', unsafe_allow_html=True)
+                    time.sleep(0.04)
+                msg["streamed"] = True
+            else:
+                formatted_content = markdown_to_html(msg["content"])
+                st.markdown(f'<div class="assistant-bubble-wrapper"><div class="assistant-icon-circle"><span class="material-symbols-outlined assistant-icon-bolt">bolt</span></div><div class="assistant-bubble-factual"><div>{formatted_content}</div>{source_html}{footer_html}</div></div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
