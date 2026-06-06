@@ -20,7 +20,7 @@ ENV/
 # .streamlit/
 
 # Local databases and scraped data
-data/vectordb/
+# data/vectordb/  (Uncommented: Committing Vector DB so Streamlit Cloud can read it)
 data/raw/
 data/processed/
 *.log
