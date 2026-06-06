@@ -541,26 +541,6 @@ def render_sidebar(active_slug=None):
         st.markdown('<div class="sidebar-title outfit-font">HDFC Mutual Funds</div>', unsafe_allow_html=True)
         st.markdown('<div class="sidebar-subtitle">AI Portfolio Assistant</div>', unsafe_allow_html=True)
         
-        # Retrieve keys from env or session_state to pre-fill
-        default_gemini = os.environ.get("GEMINI_API_KEY", "")
-        if default_gemini == "your_gemini_api_key_here":
-            default_gemini = ""
-        default_openai = os.environ.get("OPENAI_API_KEY", "")
-        if default_openai == "your_openai_api_key_here":
-            default_openai = ""
-            
-        gemini_key_val = st.session_state.get("gemini_api_key", default_gemini)
-        openai_key_val = st.session_state.get("openai_api_key", default_openai)
-        
-        # Display Live/Offline Badge
-        has_keys = (gemini_key_val and gemini_key_val != "your_gemini_api_key_here") or \
-                   (openai_key_val and openai_key_val != "your_openai_api_key_here")
-        if has_keys:
-            status_html = '<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4edea3; margin-bottom: 24px; font-weight: 600;"><span class="material-symbols-outlined" style="font-size:18px;">cloud_done</span><span>RAG Status: Live LLM Mode</span></div>'
-        else:
-            status_html = '<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #ffb95f; margin-bottom: 24px; font-weight: 600;"><span class="material-symbols-outlined" style="font-size:18px;">database</span><span>RAG Status: Offline Fallback</span></div>'
-        st.markdown(status_html, unsafe_allow_html=True)
-        
         st.markdown('<div class="supported-funds-header">Supported Funds</div>', unsafe_allow_html=True)
         
         funds = [
@@ -578,35 +558,6 @@ def render_sidebar(active_slug=None):
             st.markdown(f'<a href="/?fund={slug}" target="_self" class="{class_name}"><span class="material-symbols-outlined" style="font-size:18px;">{icon}</span>{name}</a>', unsafe_allow_html=True)
             
         st.markdown('<a href="#" class="compare-funds-btn">Compare Funds</a>', unsafe_allow_html=True)
-        
-        st.markdown('<br><div class="supported-funds-header" style="margin-top: 20px;">API Keys Configuration</div>', unsafe_allow_html=True)
-        
-        gemini_key_input = st.text_input(
-            "Gemini API Key", 
-            type="password", 
-            value=gemini_key_val,
-            placeholder="Enter Gemini Key..."
-        )
-        openai_key_input = st.text_input(
-            "OpenAI API Key", 
-            type="password", 
-            value=openai_key_val,
-            placeholder="Enter OpenAI Key..."
-        )
-        
-        # Save key inputs in session state & env
-        st.session_state.gemini_api_key = gemini_key_input
-        st.session_state.openai_api_key = openai_key_input
-        
-        if gemini_key_input:
-            os.environ["GEMINI_API_KEY"] = gemini_key_input
-        else:
-            os.environ["GEMINI_API_KEY"] = "your_gemini_api_key_here"
-            
-        if openai_key_input:
-            os.environ["OPENAI_API_KEY"] = openai_key_input
-        else:
-            os.environ["OPENAI_API_KEY"] = "your_openai_api_key_here"
 
 # Render Sidebar (detecting active scheme from history)
 active_slug = get_active_slug()
