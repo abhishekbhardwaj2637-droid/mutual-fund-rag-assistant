@@ -1,0 +1,46 @@
+name: Manual & Scheduled Mutual Fund Ingestion
+
+on:
+  schedule:
+    # Run daily at 10:00 AM IST (4:30 AM UTC)
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+    # Allows manual triggering from the GitHub Actions tab in the browser
+
+jobs:
+  ingest:
+    name: Run Ingestion and Vector Indexing
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Ingestion Pipeline
+      env:
+        VECTOR_DB_DIR: ./data/vectordb
+        CURATED_AMC: HDFC
+        DATA_RAW_DIR: ./data/raw
+        DATA_PROCESSED_DIR: ./data/processed
+      run: |
+        python ingestion/run_pipeline.py
+
+    - name: Archive Local Database Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: mutual-fund-vectordb
+        path: |
+          data/vectordb/
+          data/processed/
+        retention-days: 7
