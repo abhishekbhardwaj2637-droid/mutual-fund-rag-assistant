@@ -190,4 +190,27 @@ For rapid, serverless testing:
    GEMINI_API_KEY = "your_key"
    OPENAI_API_KEY = "your_key"
    ```
-4. **Note on Persistence**: PaaS hosting does not persist local databases across spins. The app will fetch fresh HTML documents and index them to ChromaDB at startup or run in fallback, but for production persistence, Option 1 or 2 is strongly recommended.
+4. **Note on Persistence**: PaaS hosting does not persist local databases across spins. The app will fetch fresh HTML documents and index them to ChromaDB at startup or run in fallback, but for production persistence, Option 1, 2, or 4 is strongly recommended.
+
+---
+
+## 🚂 Option 4: Railway Cloud Deployment (Recommended for Persistence)
+
+Railway offers a great balance between PaaS simplicity and persistent infrastructure, making it ideal for the RAG pipeline since we can persist our Vector DB.
+
+### Prerequisites
+1. Push your repository to GitHub.
+2. Ensure you have a `railway.json` file in the root (already included in this project) which instructs Railway on how to build and run the Streamlit app.
+
+### Deployment Steps
+1. **Create Project**: Go to [Railway.app](https://railway.app), click **New Project** -> **Deploy from GitHub repo**, and select your repository.
+2. **Add Environment Variables**: Once the service is created, go to the **Variables** tab and add:
+   - `GEMINI_API_KEY` = your_key
+   - `OPENAI_API_KEY` = your_key
+3. **Configure Persistent Volume**: This is **critical** to prevent the Vector Database from being wiped:
+   - Go to the **Volumes** tab in your Railway service settings.
+   - Click **Create Volume** (e.g., name it `mintflow-data`).
+   - Set the **Mount Path** to `/app/data`.
+   - Now, the Vector Database stored in `data/vectordb` will persist across deploys and server restarts.
+4. **Deploy**: Railway will automatically use Nixpacks to install Python dependencies from `requirements.txt` and use the `startCommand` defined in `railway.json` to launch the app.
+5. **(Optional) Automated Ingestion**: To automate daily data ingestion on Railway, you can create a second service within the same Railway project using a basic Cron job, or manually run `python ingestion/run_pipeline.py` using the Railway CLI.

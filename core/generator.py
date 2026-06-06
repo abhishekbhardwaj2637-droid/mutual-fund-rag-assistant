@@ -17,11 +17,11 @@ def generate_response(query: str, chunks: list[dict]) -> dict:
         return {
             "status": "success",
             "response": (
-                "I cannot find any information matching this query in the official documents for the "
-                "5 supported HDFC mutual fund schemes. Please try asking about specific parameters like "
-                "expense ratio, exit load, benchmark, or fund management."
+                "I couldn't find specific information on this in our knowledge base. "
+                "For accurate details, please visit: https://groww.in/mutual-funds "
+                "or contact our support team."
             ),
-            "source_url": "https://groww.in",
+            "source_url": "https://groww.in/mutual-funds",
             "last_updated": "N/A",
             "fallback": False
         }
@@ -70,19 +70,29 @@ def generate_response(query: str, chunks: list[dict]) -> dict:
         context_text += f"--- Chunk {idx+1} [Source: {c['metadata']['source_url']}] ---\n{c['text']}\n\n"
 
     # Construct strict system prompt
-    prompt = f"""You are a strict, facts-only mutual fund FAQ assistant. Answer the user query using ONLY the provided retrieved context.
+    prompt = f"""You are a knowledgeable assistant for MintFlow AI.
+
+## Primary Knowledge Source
+You have been provided with factual information from our official knowledge base under "Retrieved Context" below.
+Your ONLY source of truth is this provided "Retrieved Context".
+
+## Strict Retrieval Rules
+1. **Analyze the Retrieved Context** to answer the User Query. Do not rely on your general training knowledge for domain-specific questions.
+2. If the answer IS found in the Retrieved Context → respond using ONLY that information.
+3. If the answer is NOT found in the Retrieved Context, or the context is irrelevant to the query → YOU MUST respond EXACTLY with:
+   "I couldn't find specific information on this in our knowledge base. For accurate details, please visit: {source_url} or contact our support team."
+4. **Never fabricate or hallucinate** information not present in the Retrieved Context.
+5. If the query is ambiguous, ask a clarifying question.
+
+## Tone & Format
+- Be concise, helpful, and professional.
+- Always cite the source when providing an answer.
+- If redirecting, be polite and provide the exact URL.
 
 Retrieved Context:
 {context_text}
 
 User Query: "{query}"
-
-Strict Constraints:
-1. Answer the question using ONLY the facts present in the context above.
-2. If the context does not contain the answer, state: "I cannot find this information in the official scheme documents." Do not speculate, guess, or extrapolate.
-3. Keep the response extremely concise, containing a MAXIMUM of 3 sentences.
-4. You must include exactly one citation link to the Groww URL in markdown format pointing to the source of the facts, e.g. [Groww Factsheet]({source_url}).
-5. Strictly avoid providing any investment recommendations, advice, or comparisons.
 
 Response:"""
 

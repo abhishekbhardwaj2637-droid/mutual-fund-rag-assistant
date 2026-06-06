@@ -141,24 +141,27 @@ footer {visibility: hidden;}
 }
 
 /* Responsive Overlapping Fixes (Dynamic layout based on sidebar collapse state) */
-/* Sidebar expanded (data-collapsed="false") */
-[data-testid="stSidebar"][data-collapsed="false"] ~ [data-testid="stMain"] .top-header-bar,
-[data-testid="stSidebar"][data-collapsed="false"] ~ [data-testid="stMain"] .compliance-banner {
+/* Sidebar expanded (aria-expanded="true" or default) */
+[data-testid="stSidebar"][aria-expanded="true"] ~ [data-testid="stMain"] .top-header-bar,
+[data-testid="stSidebar"][aria-expanded="true"] ~ [data-testid="stMain"] .compliance-banner,
+[data-testid="stSidebarNav"] ~ [data-testid="stMain"] .top-header-bar,
+.top-header-bar, .compliance-banner {
     left: 336px !important;
     width: calc(100% - 336px) !important;
 }
-[data-testid="stSidebar"][data-collapsed="false"] ~ [data-testid="stMain"] .footer-disclosures {
+[data-testid="stSidebar"][aria-expanded="true"] ~ [data-testid="stMain"] .footer-disclosures,
+.footer-disclosures {
     left: 336px !important;
     width: calc(100% - 336px) !important;
 }
 
-/* Sidebar collapsed (data-collapsed="true") */
-[data-testid="stSidebar"][data-collapsed="true"] ~ [data-testid="stMain"] .top-header-bar,
-[data-testid="stSidebar"][data-collapsed="true"] ~ [data-testid="stMain"] .compliance-banner {
+/* Sidebar collapsed (aria-expanded="false") */
+[data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] .top-header-bar,
+[data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] .compliance-banner {
     left: 0 !important;
     width: 100% !important;
 }
-[data-testid="stSidebar"][data-collapsed="true"] ~ [data-testid="stMain"] .footer-disclosures {
+[data-testid="stSidebar"][aria-expanded="false"] ~ [data-testid="stMain"] .footer-disclosures {
     left: 0 !important;
     width: 100% !important;
 }
@@ -555,9 +558,25 @@ def render_sidebar(active_slug=None):
             is_active = (active_slug == slug)
             class_name = "fund-item fund-item-active" if is_active else "fund-item"
             # Clickable anchor tag
-            st.markdown(f'<a href="/?fund={slug}" target="_self" class="{class_name}"><span class="material-symbols-outlined" style="font-size:18px;">{icon}</span>{name}</a>', unsafe_allow_html=True)
+            st.markdown(f'<a href="?fund={slug}" target="_self" class="{class_name}"><span class="material-symbols-outlined" style="font-size:18px;">{icon}</span>{name}</a>', unsafe_allow_html=True)
             
         st.markdown('<a href="#" class="compare-funds-btn">Compare Funds</a>', unsafe_allow_html=True)
+
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown('<div class="supported-funds-header">API Configurations</div>', unsafe_allow_html=True)
+        gemini_key = st.text_input("Gemini API Key", value=os.environ.get("GEMINI_API_KEY", ""), type="password")
+        if gemini_key and gemini_key != "your_gemini_api_key_here":
+            os.environ["GEMINI_API_KEY"] = gemini_key
+            
+        openai_key = st.text_input("OpenAI API Key", value=os.environ.get("OPENAI_API_KEY", ""), type="password")
+        if openai_key and openai_key != "your_openai_api_key_here":
+            os.environ["OPENAI_API_KEY"] = openai_key
+            
+        if (gemini_key and gemini_key != "your_gemini_api_key_here") or (openai_key and openai_key != "your_openai_api_key_here"):
+            st.markdown('<div style="color: #4edea3; font-size: 12px; margin-top: 8px;">🟢 Live Generative Mode</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div style="color: #ffb95f; font-size: 12px; margin-top: 8px;">🟡 Offline Fallback Mode</div>', unsafe_allow_html=True)
+
 
 # Render Sidebar (detecting active scheme from history)
 active_slug = get_active_slug()
