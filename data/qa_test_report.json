@@ -1,0 +1,189 @@
+{
+    "timestamp": "2026-06-01T08:22:58.579557Z",
+    "total_tests": 10,
+    "passed_tests": 10,
+    "failed_tests": 0,
+    "pass_rate_percent": 100.0,
+    "results": [
+        {
+            "test_id": 1,
+            "query": "What is the exit load of HDFC Mid-Cap Opportunities Fund?",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": "hdfc-mid-cap-fund-direct-growth",
+            "detected_scheme": "hdfc-mid-cap-fund-direct-growth",
+            "status": "success",
+            "duration_sec": 25.058,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 2,
+            "query": "What is the expense ratio of HDFC Small Cap Fund?",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": "hdfc-small-cap-fund-direct-growth",
+            "detected_scheme": "hdfc-small-cap-fund-direct-growth",
+            "status": "success",
+            "duration_sec": 0.053,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 3,
+            "query": "Who is the fund manager of HDFC Defence Fund?",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": "hdfc-defence-fund-direct-growth",
+            "detected_scheme": "hdfc-defence-fund-direct-growth",
+            "status": "success",
+            "duration_sec": 0.047,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 4,
+            "query": "What is the benchmark index of HDFC Silver ETF FoF?",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": "hdfc-silver-etf-fof-direct-growth",
+            "detected_scheme": "hdfc-silver-etf-fof-direct-growth",
+            "status": "success",
+            "duration_sec": 0.055,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 5,
+            "query": "What is the minimum SIP and lump sum investment for HDFC Gold ETF Fund of Fund?",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": "hdfc-gold-etf-fund-of-fund-direct-plan-growth",
+            "detected_scheme": "hdfc-gold-etf-fund-of-fund-direct-plan-growth",
+            "status": "success",
+            "duration_sec": 0.057,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 6,
+            "query": "Should I invest in HDFC Small Cap Fund for my retirement?",
+            "expected_class": "ADVISORY",
+            "actual_class": "ADVISORY",
+            "expected_scheme": null,
+            "detected_scheme": null,
+            "status": "refused",
+            "duration_sec": 0.0,
+            "is_fallback": false,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 7,
+            "query": "Which is a better investment choice, HDFC Defence or HDFC Mid-Cap Fund?",
+            "expected_class": "ADVISORY",
+            "actual_class": "ADVISORY",
+            "expected_scheme": null,
+            "detected_scheme": null,
+            "status": "refused",
+            "duration_sec": 0.0,
+            "is_fallback": false,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 8,
+            "query": "Can you predict if HDFC Gold ETF will double my money in the next 3 years?",
+            "expected_class": "ADVISORY",
+            "actual_class": "ADVISORY",
+            "expected_scheme": null,
+            "detected_scheme": null,
+            "status": "refused",
+            "duration_sec": 0.0,
+            "is_fallback": false,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 9,
+            "query": "What is the exit load of Nippon India Small Cap Fund?",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": null,
+            "detected_scheme": null,
+            "status": "success",
+            "duration_sec": 0.045,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        },
+        {
+            "test_id": 10,
+            "query": "Explain what inflation is and how it affects interest rates.",
+            "expected_class": "FACTUAL",
+            "actual_class": "FACTUAL",
+            "expected_scheme": null,
+            "detected_scheme": null,
+            "status": "success",
+            "duration_sec": 0.046,
+            "is_fallback": true,
+            "checks": {
+                "classification_ok": true,
+                "scheme_filter_ok": true,
+                "citation_ok": true,
+                "sentence_limit_ok": true
+            },
+            "passed": true
+        }
+    ]
+}

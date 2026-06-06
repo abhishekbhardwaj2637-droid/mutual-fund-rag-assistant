@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Streamlit config (optional to ignore, but we keep .streamlit/config.toml if needed)
+# .streamlit/
+
+# Local databases and scraped data
+data/vectordb/
+data/raw/
+data/processed/
+*.log
+data/*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
