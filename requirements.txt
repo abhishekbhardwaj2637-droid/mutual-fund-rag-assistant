@@ -6,3 +6,4 @@ google-generativeai>=0.3.0
 streamlit>=1.30.0
 python-dotenv>=1.0.0
 sentence-transformers>=2.2.2
+pysqlite3-binary; sys_platform == 'linux'
